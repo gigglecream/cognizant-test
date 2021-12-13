@@ -1,0 +1,62 @@
+<button (click)="fetchApplications()">Fetch</button>
+<button *ngIf="!expanded" (click)="addFeature()">Add</button>
+<button *ngIf="!expanded" (click)="expanded = !expanded">Show Details</button>
+<button *ngIf="expanded" (click)="expanded = !expanded">Hide Details</button>
+
+  
+<div *ngFor="let feature of appFeatures">
+  <div *ngIf="!editMode">
+    
+    <div *ngIf="expanded">
+      <table>
+        <thead>
+          <th>Display Name</th>
+          <th>Technical Name</th>
+          <th>Effective Date</th>
+          <th>Descriptio</th>
+          <th>Enabled</th>
+          <th>Application IDs</th>
+        </thead>
+        <td>{{feature.displayName}}</td>
+        <td>{{feature.technicalName}}</td>
+        <td>{{feature.effectiveDate}}</td>
+        <td>{{feature.description}}</td>
+        <td>{{feature.enabled}}</td>
+        <td>{{feature.applicationIds}}</td>
+      </table>
+    </div>
+    
+    <div *ngIf="!expanded">
+      {{feature.technicalName}}
+      <button (click)="editFeature(feature)">Edit</button>
+      <button (click)="archievFeature(feature)">Archive</button>
+  </div>
+  </div>
+</div>
+<div *ngIf="editMode">
+  <input [(ngModel)]="editFeatureItem[0].displayName" name="name"/>
+  <input [(ngModel)]="editFeatureItem[0].technicalName" name="name"/>
+  <input [(ngModel)]="editFeatureItem[0].effectiveDate" type="date" name="name"/>
+  <input [(ngModel)]="editFeatureItem[0].description" name="name"/>
+  <input [(ngModel)]="editFeatureItem[0].enabled" type="checkbox" name="name"/>
+  <button (click)="updateFeature(editFeatureItem[0])">Save</button>
+</div>
+
+<div *ngIf="addMode">
+  <input [(ngModel)]="addFeatureItem[0].displayName">
+  <input [(ngModel)]="addFeatureItem[0].technicalName">
+  <input [(ngModel)]="addFeatureItem[0].effectiveDate" type="datetime-local">
+  <input [(ngModel)]="addFeatureItem[0].description">
+  <input [(ngModel)]="addFeatureItem[0].enabled" type="checkbox">
+
+  <button (click)="saveAddFeature()">Save</button>
+</div>
+
+<div>
+  <h3>Archive:</h3>
+  <div *ngFor="let archFeature of archivedAppFeatures">
+    {{archFeature.technicalName}}
+  </div>
+</div>
+
+<router-outlet></router-outlet>
